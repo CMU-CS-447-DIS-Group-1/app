@@ -1,4 +1,5 @@
 import 'package:app/src/resources/Screen/HomeScreen.dart';
+import 'package:app/src/resources/Screen/OTP_Screen.dart';
 import 'package:app/src/resources/Screen/RegisterPage.dart';
 import 'package:app/src/resources/auth_blocs/auth_blocs.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,8 @@ class LoginHomePage extends StatefulWidget {
   _LoginHomePageState createState() => _LoginHomePageState();
 }
 
-class _LoginHomePageState extends State<LoginHomePage> {
+class _LoginHomePageState extends State<LoginHomePage>{
+  String dialCodeDigits="+84";
   Auth_blocs auth_blocs= new Auth_blocs();
   TextEditingController _phoneNumberController= new TextEditingController();
   @override
@@ -48,14 +50,21 @@ class _LoginHomePageState extends State<LoginHomePage> {
                           style: TextStyle(fontSize: 16,color: Colors.black),
                         decoration: InputDecoration(
                             errorText: snapshot.hasError ? snapshot.error.toString(): null,
-                            labelText: "Enter your phone number",
-                            prefixIcon: Icon(Icons.phone),
+                            labelText: "Nhập số điện thoại",
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.fromLTRB(5,14, 5, 0),
+                              child: Text(
+                                dialCodeDigits,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
                             border: OutlineInputBorder(
                             borderSide:
                               BorderSide(color: Colors.red,width: 1),
                               borderRadius: BorderRadius.all(Radius.circular(20))
                           )
-                        )
+                        ),
                       );
                     }
                   ),
@@ -69,10 +78,10 @@ class _LoginHomePageState extends State<LoginHomePage> {
                     height: 53,
                     child: RaisedButton(
                       onPressed: (){
-                        var isPhoneNumber= auth_blocs.isValidPhoneNumber(_phoneNumberController.text);
-                        if(isPhoneNumber){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
-                        }
+                      var isPhoneNumber= auth_blocs.isValidPhoneNumber(_phoneNumberController.text);
+                      if(isPhoneNumber){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>OTPControllerScreen(phone: _phoneNumberController.text, codeDigits: dialCodeDigits)));
+                      }
                       },
                       child: Text(
                         "Đăng nhập",
@@ -114,7 +123,10 @@ class _LoginHomePageState extends State<LoginHomePage> {
   _loginClick(){
     var isPhoneNumber= auth_blocs.isValidPhoneNumber(_phoneNumberController.text);
     if(isPhoneNumber){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>OTPControllerScreen(
+          phone: _phoneNumberController.text,
+          codeDigits: dialCodeDigits
+      )));
     }
   }
 }

@@ -12,17 +12,14 @@ class Auth_blocs{
       _numberPhoneController.sink.addError("Chưa nhập số điện thoại");
       return false;
     }
-    const pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
+    const pattern = r'(^(?:[+0]9)?[0-9]{9,12}$)';
     final regExp = RegExp(pattern);
 
     if (!regExp.hasMatch(phoneNumber)) {
       _numberPhoneController.sink.addError("Số điện thoại chưa đúng");
       return false;
     }
-    if(phoneNumber.length<=10){
-      _numberPhoneController.sink.addError("Số điện thoại nhập chưa đúng");
-      return false;
-    }
+
     _numberPhoneController.sink.add("");
     return true;
   }
