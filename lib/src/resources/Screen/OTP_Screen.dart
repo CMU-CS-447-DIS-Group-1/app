@@ -18,9 +18,9 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
   String? varificationCode;
   final BoxDecoration pinOTPCodeDecoration= BoxDecoration(
       color: Colors.blueAccent,
-      borderRadius: BorderRadius.circular(10.0),
+      borderRadius: BorderRadius.circular(20.0),
       border: Border.all(
-        color:  Colors.grey,
+        color:  Colors.purpleAccent,
       )
   );
 

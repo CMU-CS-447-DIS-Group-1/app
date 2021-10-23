@@ -1,4 +1,6 @@
-import 'package:app/src/resources/Screen/NhapThongTin.dart';
+import 'package:app/src/resources/Screen/LoginHomePage.dart';
+import 'package:app/src/resources/Widget/Map.dart';
+import 'package:app/src/resources/fire_base/fire_base_auth.dart';
 import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +12,13 @@ class HomeScreen extends StatefulWidget {
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
-  //tao method lay string cua class
-  getStringQR()=> createState().stringQrcode;
+  // //tao method lay string cua class
+  getStringQRcode()=> createState()._stringQrcode;
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  TextEditingController name= new TextEditingController();
+  TextEditingController cmnd= new TextEditingController();
   String? countryValue;
   String? stateValue;
   String? cityValue;
@@ -22,9 +26,10 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _qrcheck=true;
   String barcode = "";
   String qrCodeResult="Chưa quét" ;
+  FirAuth firAuth= new FirAuth();
 
 
-  String get stringQrcode => _stringQrcode;
+
 
   
   @override
@@ -33,24 +38,25 @@ class _HomeScreenState extends State<HomeScreen> {
         length: 4,
         child: Scaffold(
           bottomNavigationBar: BottomAppBar(
-            color: Colors.blueAccent,
+            color: Colors.blue,
             child: TabBar(
-              indicatorWeight: 4,
+              indicatorColor: Colors.white,
+              indicatorWeight: 1,
               tabs: [
                 Tab(icon: Icon(Icons.home),text: "Trang chủ",),
                 Tab(icon: Icon(Icons.map),text: "Bản đồ",),
                 Tab(icon: Icon(Icons.qr_code_scanner),text:"Mã QR",),
                 Tab(icon: Icon(Icons.settings),text: "Cài đặt",),
               ],
-              unselectedLabelColor: Colors.black54,
+              unselectedLabelColor: Colors.black,
             ),
           ),
           body: TabBarView(
             children: [
               Text("Trang chủ"),
-              Text("Trang chủ"),
+               map(),
               _tabQR(),
-              Text("Trang chủ"),
+              settingTab(),
             ],
           ),
         ),
@@ -70,16 +76,18 @@ class _HomeScreenState extends State<HomeScreen> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            iconTheme: IconThemeData(color: Colors.red),
             bottom: const TabBar(
               labelStyle: TextStyle(fontSize: 16),
               tabs: [
                 Tab(text: "Cá nhân"),
                 Tab(text: "Chốt kiểm dịch",),
               ],
+              unselectedLabelColor: Colors.black,
             ),
             titleTextStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold) ,
             centerTitle: true,
-            title: const Text("QR"),
+            title: const Text("Mã QR"),
           ),
           body: TabBarView(
             children: [
@@ -94,36 +102,52 @@ class _HomeScreenState extends State<HomeScreen> {
   //Phần widget nhập thông tin
   Widget _buildQRPersonal(){
     return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+      padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //crossAxisAlignment:  CrossAxisAlignment.stretch,
         children: [
           _qrcheck==true?Text("Chưa có mã QR",textAlign: TextAlign.center,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),):
-          QrImage(data: stringQrcode,padding: EdgeInsets.all(100),),
+          QrImage(data: _stringQrcode,padding: EdgeInsets.all(100),),
           Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: TextField(
+                controller: name,
                 style: TextStyle(fontSize: 16,color: Colors.black),
                 decoration: InputDecoration(
-                  labelText: "Họ và tên",
+                    labelText: "Họ và tên",
+                    labelStyle: TextStyle(fontSize: 16,color: Colors.black),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black12),
+                    ),
+
+                  // border: OutlineInputBorder(
+                    //     borderSide:
+                    //     BorderSide(color: Colors.red,width: 1),
+                    //     borderRadius: BorderRadius.all(Radius.circular(30))
+                    // )
                 ),
               )
           ),
           Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
               child: TextField(
+                controller: cmnd,
                 style: TextStyle(fontSize: 16,color: Colors.black),
                 decoration: InputDecoration(
-                  labelText: "Số CMND",
-
+                  labelText: "Số CMND/CCCD", labelStyle: TextStyle(fontSize: 16,color: Colors.black),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black12),
+                  ),
                   // border: OutlineInputBorder(
                   //     borderSide:
                   //     BorderSide(color: Colors.red,width: 1),
-                  //     borderRadius: BorderRadius.all(Radius.circular(20))
+                  //     borderRadius: BorderRadius.all(Radius.circular(30))
                   // )
                 ),
               )
           ),
+
           SelectState(
               onCountryChanged: (value){
                 setState(() {
@@ -147,6 +171,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(fontSize: 16,color: Colors.black),
                 decoration: InputDecoration(
                   labelText: "Những nơi đã đi qua trong 14 ngày",
+                    labelStyle: TextStyle(fontSize: 16,color: Colors.black),
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black12),
+                    ),
                 ),
               )
           ),
@@ -165,12 +193,12 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children:<Widget> [
           Text(
-            "Result",
+            "Thông tin người đi đường",
             style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           Text(
-            "qrCodeResult",
+            "",
             style: TextStyle(
               fontSize: 20.0,
             ),
@@ -213,10 +241,35 @@ class _HomeScreenState extends State<HomeScreen> {
       onPressed: (){
         setState(() {
           _qrcheck=false;
+          _stringQrcode="Name: "+name.text+"\n"+"CMND: "+cmnd.text+"\n"+"Address: "+cityValue.toString()+" "+stateValue.toString()+" "+countryValue.toString();
         });
       },
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0,),side: BorderSide(color: Colors.blue,width: 3.0)
+      ),
+    );
+  }
+
+
+
+
+  //widget Setting
+  Widget settingTab(){
+    return Center(
+      child: Container(
+        width:  300,
+        height: 50,
+        child: RaisedButton(
+          onPressed: (){
+            firAuth.logOut();
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginHomePage()));
+          },
+          child: Text(
+              "Đăng xuất",
+              style: TextStyle(color: Colors.white,fontSize: 16)
+          ),
+          color: Colors.red,
+        ),
       ),
     );
   }

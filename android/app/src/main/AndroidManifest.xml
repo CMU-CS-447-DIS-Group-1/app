@@ -3,8 +3,10 @@
    <application
         android:label="app"
         android:icon="@mipmap/ic_launcher">
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyAvcC29ziGb9t0NPNxKwQfaZn2NgoqS0TQ"/>
         <activity
-            android:name=".MainActivity"
+            android:name="MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

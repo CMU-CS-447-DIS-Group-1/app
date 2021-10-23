@@ -72,7 +72,7 @@ class _LoginHomePageState extends State<LoginHomePage>{
 
 
                 Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                   child: SizedBox(
                     width:  double.infinity,
                     height: 53,
@@ -88,6 +88,7 @@ class _LoginHomePageState extends State<LoginHomePage>{
                         style: TextStyle(color: Colors.white,fontSize: 16)
                       ),
                       color: Colors.blue,
+
                     ),
                   ),
                 ),
