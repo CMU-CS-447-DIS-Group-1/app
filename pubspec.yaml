@@ -39,11 +39,22 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: "^0.7.0"
   firebase_auth: "^0.20.1"
+  firebase_database:
   provider: ^4.3.1
   country_code_picker: ^2.0.2
   pinput: ^1.2.0
   country_state_city_picker: ^1.2.8
   flutter_barcode_scanner: ^2.0.0
+  location: ^3.0.0
+  flutter_spinkit: "^4.0.0"
+  gradient_bottom_navigation_bar: ^1.0.0+4
+  gradient_text: ^1.0.2
+  geocoding: ^1.0.5
+  geolocator:  ^6.1.13
+  http: ^0.12.0+2
+  new_gradient_app_bar: ^0.1.4
+  pull_to_refresh: ^2.0.0
+  bubble_tab_indicator: "^0.1.5"
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +75,10 @@ flutter:
   assets:
     - logo.jpg
     - background.jpg
+    - background2.jpg
+    - quetma.jpg
+    - phongchongcovid.jpg
+    - anhcovid.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -86,10 +101,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
   # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+     - family: iconpack
+       fonts:
+         - asset: fonts/iconpack.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

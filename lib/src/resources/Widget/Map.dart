@@ -1,8 +1,16 @@
 import 'dart:async';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart' as geolocator;
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:location/location.dart';
+import 'package:app/src/resources/Widget/Location.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator_platform_interface/src/enums/location_accuracy.dart'
+    as a;
+import 'Loading.dart';
+import 'package:location_platform_interface/location_platform_interface.dart';
+
 class map extends StatefulWidget {
   const map({Key? key}) : super(key: key);
 
@@ -11,70 +19,41 @@ class map extends StatefulWidget {
 }
 
 class _mapState extends State<map> {
-  bool isSwitch=false;
-  var textSwitch="Hình ảnh thường";
-  MapType _currentMapType = MapType.normal;
-  void checkSwitch(bool value){
-    if(isSwitch == false)
-    {
-      setState(() {
-        _currentMapType=MapType.satellite;
-        isSwitch = true;
-        textSwitch = 'Hình ảnh vệ tinh';
-      });
-    }
-    else
-    {
-      setState(() {
-        _currentMapType=MapType.normal;
-        isSwitch = false;
-        textSwitch = 'Hình ảnh thường';
-      });
-
-    }
+  LatLng _initialcameraposition = LatLng(100.5937, 78.9629);
+  var _controller;
+  Location _location = Location();
+  void _onMapCreated(GoogleMapController _cntlr) {
+    _controller = _cntlr;
+    _location.onLocationChanged.listen((l) {
+      _controller.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(target: LatLng(l.latitude, l.longitude),zoom: 15),
+        ),
+      );
+    });
   }
-  Completer<GoogleMapController> _controller = Completer();
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng( 15.97, 108.21),
-    zoom: 10,
-  );
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          GoogleMap(
-            // dang map
-            mapType: _currentMapType,
-            initialCameraPosition: _kGooglePlex,
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(330, 40, 0, 0),
-            child: Switch(
-              onChanged: checkSwitch,
-              value: isSwitch,
-              activeColor: Colors.green,
-              activeTrackColor: Colors.white,
-              inactiveThumbColor: Colors.red,
-              inactiveTrackColor: Colors.white,
+    if (_location != null) {
+      return Scaffold(
+        body: Column(children: [
+          Expanded(
+            child: GoogleMap(
+              zoomGesturesEnabled: true,
+              // dang map
+              initialCameraPosition:
+                  CameraPosition(target: _initialcameraposition),
+              mapType: MapType.normal,
+              onMapCreated: _onMapCreated,
+              myLocationEnabled: true,
+              zoomControlsEnabled: true,
+              myLocationButtonEnabled: true,
             ),
           ),
-          Container(
-              margin: EdgeInsets.fromLTRB(320, 80, 0, 0),
-              child: Text('$textSwitch', style: TextStyle(fontSize: 10,color: Colors.black54),))
-        ],
-      ),
-    );
+        ]),
+      );
+    }
+    return Loading();
   }
-  //Dời camera đến một nơi nào đó
-
-  // Future<void> _goToTheLake() async {
-  //   final GoogleMapController controller = await _controller.future;
-  //   controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
-  //}
 }
-

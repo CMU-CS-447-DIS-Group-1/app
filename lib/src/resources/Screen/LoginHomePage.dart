@@ -23,14 +23,11 @@ class _LoginHomePageState extends State<LoginHomePage>{
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.lightGreenAccent,
-                Colors.deepPurpleAccent
-              ],
+        decoration:  BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/background2.jpg"),
+              fit: BoxFit.cover,
+              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.1), BlendMode.dstATop),
             )
         ),
         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -95,23 +92,23 @@ class _LoginHomePageState extends State<LoginHomePage>{
 
 
 
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: SizedBox(
-                    width:  double.infinity,
-                    height: 53,
-                    child: RaisedButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterPage()));
-                      },
-                      child: Text(
-                          "Đăng kí",
-                          style: TextStyle(color: Colors.black,fontSize: 16)
-                      ),
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                //   child: SizedBox(
+                //     width:  double.infinity,
+                //     height: 53,
+                //     child: RaisedButton(
+                //       onPressed: (){
+                //         Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterPage()));
+                //       },
+                //       child: Text(
+                //           "Đăng kí",
+                //           style: TextStyle(color: Colors.black,fontSize: 16)
+                //       ),
+                //       color: Colors.white,
+                //     ),
+                //   ),
+                // ),
 
 
 
