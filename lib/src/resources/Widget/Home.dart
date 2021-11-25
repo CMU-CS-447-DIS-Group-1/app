@@ -1,11 +1,15 @@
 import 'dart:convert';
+//import 'dart:html';
 
 import 'package:app/src/resources/Widget/CustomAppBar.dart';
 import 'package:app/src/resources/Widget/worldwidepanel.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
+
+import 'Loading.dart';
 
 class TrangChu extends StatefulWidget {
   const TrangChu({Key? key}) : super(key: key);
@@ -16,6 +20,7 @@ class TrangChu extends StatefulWidget {
 
 class _TrangChuState extends State<TrangChu> {
   var worldData;
+  var vietnamData;
   fetchWorldWideData() async {
     http.Response response = await http.get('https://corona.lmao.ninja/v2/all');
     setState(() {
@@ -23,8 +28,17 @@ class _TrangChuState extends State<TrangChu> {
     });
   }
 
+  fetchVietNamData() async {
+    http.Response response =
+        await http.get('https://corona.lmao.ninja/v2/countries/vn?sort=cases');
+    setState(() {
+      vietnamData = json.decode(response.body);
+    });
+  }
+
   Future fetchData() async {
     fetchWorldWideData();
+    fetchVietNamData();
     print('fetchData called');
   }
 
@@ -36,43 +50,6 @@ class _TrangChuState extends State<TrangChu> {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   appBar: AppBar(
-    //       title: Center(
-    //           child: Text('Blue Station')),
-    //       backgroundColor: Colors.black54,
-    //   ),
-    //   body: RefreshIndicator(
-    //     onRefresh: fetchData,
-    //     child: SingleChildScrollView(
-    //         child: Column(
-    //           crossAxisAlignment: CrossAxisAlignment.start,
-    //           children: <Widget>[
-    //             Padding(
-    //               padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
-    //               child: Row(
-    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                 children: <Widget>[
-    //                   Text(
-    //                     'VIỆT NAM',
-    //                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //             worldData == null
-    //                 ? Center(
-    //               child: CircularProgressIndicator(),
-    //             )
-    //                 : WorldwidePanel(
-    //               worldData: worldData,
-    //             ),
-    //           ],
-    //         )),
-    //   ),
-    // );
-    //}
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -80,13 +57,12 @@ class _TrangChuState extends State<TrangChu> {
         appBar: AppBar(
           flexibleSpace: Container(
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/anhcovid.jpg"),fit: BoxFit.cover
-              )
-            ),
+                image: DecorationImage(
+                    image: AssetImage("assets/anhcovid.jpg"),
+                    fit: BoxFit.cover)),
           ),
           backgroundColor: Colors.teal,
-          bottom:  TabBar(
+          bottom: TabBar(
             indicator: BubbleTabIndicator(
                 tabBarIndicatorSize: TabBarIndicatorSize.tab,
                 indicatorHeight: 40.0,
@@ -94,19 +70,27 @@ class _TrangChuState extends State<TrangChu> {
             labelColor: Colors.black,
             labelStyle: TextStyle(fontSize: 16),
             tabs: [
-              Tab(text: "Việt Nam",),
-              Tab(text: "Thế giới",),
+              Tab(
+                text: "Việt Nam",
+              ),
+              Tab(
+                text: "Thế giới",
+              ),
             ],
             unselectedLabelColor: Colors.white,
           ),
-          titleTextStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold) ,
+          titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           centerTitle: true,
           title: const Text("Số ca nhiễm"),
         ),
         body: TabBarView(
           children: [
-            _buildVietNamTabBar(),
-            _buildWorldTabBar(),
+            vietnamData == null
+                ? Loading()
+                : _buildVietNamTabBar(),
+            worldData == null
+                ? Loading()
+                : _buildWorldTabBar(),
           ],
         ),
       ),
@@ -118,221 +102,348 @@ class _TrangChuState extends State<TrangChu> {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(20),
+            height: 200,
+            width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0,4),
-                  blurRadius: 30,
-                  color: Colors.grey,
+                color: Colors.cyan.withOpacity(.09),
+                borderRadius: BorderRadius.all(Radius.circular(50))),
+            child: Wrap(
+              runSpacing: 20,
+              spacing: 20,
+              children: <Widget>[
+                infoCard(
+                  title: "Tổng số ca nhiễm",
+                  infor: vietnamData["cases"].toString(),
+                  color: Colors.red,
+                ),
+                infoCard(
+                  title: "Tổng số ca hồi phục",
+                  infor: vietnamData["recovered"].toString(),
+                  color: Colors.green,
+                ),
+                infoCard(
+                  title: "Tử vong",
+                  infor: vietnamData["deaths"].toString(),
+                  color: Colors.black,
+                ),
+                infoCard(
+                  title: "Số ca hôm nay",
+                  infor: vietnamData["todayCases"].toString(),
+                  color: Colors.orangeAccent,
                 )
               ],
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:<Widget> [
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-              ],
-            ),
           ),
-          Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0,4),
-                  blurRadius: 30,
-                  color: Colors.grey,
+          SizedBox(height: 20,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children:<Widget> [
+                Text("THÔNG ĐIỆP 5K",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children:<Widget> [
+                    Column(
+                      children:<Widget> [
+                        Column(
+                          children: [
+                            Container(
+                                width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage('assets/mask.png'),
+                                  fit: BoxFit.cover
+                                )
+                              ),
+                            ),
+                            Text("Khẩu trang")
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/khaibaoyte.png'),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        Text("Khai báo y tế")
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/khoangcach.jpg'),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        Text("Khoảng cách")
+                      ],
+                    )
+                  ],
+                ),
+                SizedBox(height: 40,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children:<Widget> [
+                    Column(
+                      children:<Widget> [
+                        Column(
+                          children: [
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('assets/people.png'),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            Text("Không tụ tập")
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/washhands.png'),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        Text("Khử khuẩn")
+                      ],
+                    ),
+                  ],
                 )
               ],
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:<Widget> [
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-              ],
-            ),
-          ),
+          )
         ],
       ),
     );
   }
+
   Widget _buildWorldTabBar() {
     return Scaffold(
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.all(10),
             padding: EdgeInsets.all(20),
+            height: 200,
+            width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0,4),
-                  blurRadius: 30,
-                  color: Colors.grey,
+                color: Colors.blue.withOpacity(.09),
+                borderRadius: BorderRadius.all(Radius.circular(50))),
+            child: Wrap(
+              runSpacing: 20,
+              spacing: 20,
+              children: <Widget>[
+                infoCard(
+                  title: "Tổng số ca nhiễm",
+                  infor: worldData["cases"].toString(),
+                  color: Colors.red,
+                ),
+                infoCard(
+                  title: "Tổng số ca hồi phục",
+                  infor: worldData["recovered"].toString(),
+                  color: Colors.green,
+                ),
+                infoCard(
+                  title: "Tử vong",
+                  infor: worldData["deaths"].toString(),
+                  color: Colors.black,
+                ),
+                infoCard(
+                  title: "Số ca hôm nay",
+                  infor: worldData["todayCases"].toString(),
+                  color: Colors.orangeAccent,
                 )
               ],
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:<Widget> [
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-              ],
-            ),
           ),
-          Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0,4),
-                  blurRadius: 30,
-                  color: Colors.grey,
+          SizedBox(height: 20,),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children:<Widget> [
+                Text("THÔNG ĐIỆP 5K",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children:<Widget> [
+                    Column(
+                      children:<Widget> [
+                        Column(
+                          children: [
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('assets/mask.png'),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            Text("Khẩu trang")
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/khaibaoyte.png'),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        Text("Khai báo y tế")
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/khoangcach.jpg'),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        Text("Khoảng cách")
+                      ],
+                    )
+                  ],
+                ),
+                SizedBox(height: 40,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children:<Widget> [
+                    Column(
+                      children:<Widget> [
+                        Column(
+                          children: [
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('assets/people.png'),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            Text("Không tụ tập")
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/washhands.png'),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        Text("Khử khuẩn")
+                      ],
+                    ),
+                  ],
                 )
               ],
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:<Widget> [
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-                Counter(
-                  color: Colors.red,
-                  number: 1111,
-                  tittle: "Chết",
-                ),
-              ],
-            ),
-          ),
+          )
         ],
       ),
     );
   }
 }
 
-class Counter extends StatelessWidget {
-  final int number;
+class infoCard extends StatelessWidget {
+  final String title;
   final Color color;
-  final String tittle;
-  const Counter({
-    Key? key, required this.number, required this.color, required this.tittle,
-  }) : super(key: key);
+  final String infor;
+  const infoCard(
+      {Key? key, required this.color, required this.infor, required this.title})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children:<Widget> [
-        Container(
-          padding: EdgeInsets.all(6),
-          height: 25,
-          width: 25,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color.withOpacity(.26)
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.transparent,
-              border: Border.all(
-                color:  color,
-                width: 2,
-              )
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        width: constraints.maxWidth / 2 - 10,
+        decoration: BoxDecoration(
+            color: color.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8)),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 14, color: color),
+                  )
+                ],
+              ),
             ),
-          ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(9.0),
+                  child: RichText(
+                      text: TextSpan(
+                    style: TextStyle(color: Colors.black),
+                    children: [
+                      TextSpan(
+                          text: infor,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                    ],
+                  )),
+                ),
+              ],
+            )
+          ],
         ),
-        SizedBox(height: 10,),
-        Text(
-          "$number",
-          style: TextStyle(
-            fontSize: 20,
-            color: color
-          ),
-        ),
-        SizedBox(height: 10,),
-        Text(tittle, style:TextStyle(fontSize: 12) ,)
-      ],
-    );
+      );
+    });
   }
 }
