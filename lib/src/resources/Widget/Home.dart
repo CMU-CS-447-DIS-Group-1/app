@@ -2,8 +2,6 @@ import 'dart:convert';
 //import 'dart:html';
 
 import 'package:app/src/resources/Widget/CustomAppBar.dart';
-import 'package:app/src/resources/Widget/worldwidepanel.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;

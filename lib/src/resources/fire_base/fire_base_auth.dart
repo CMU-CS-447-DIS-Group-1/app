@@ -6,13 +6,14 @@ class FirAuth{
     await _firebaseAuth.signOut();
   }
 
-  void data(String name, String gender,String cmnd,String address,String WhereStart,String WhereEnd){
+  void data(String name, String gender,String cmnd,String phone,String address,String WhereStart,String WhereEnd){
     final User user = _firebaseAuth.currentUser;
     final uid = user.uid;
     var users={
       "NameOfStd": name,
       "Gender": gender,
       "CMND": cmnd,
+      "phone": phone,
       "Address": address,
       "WhereStart":WhereStart,
       "WhereEnd": WhereEnd,

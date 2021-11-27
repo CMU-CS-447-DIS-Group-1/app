@@ -27,18 +27,18 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  qr_flutter: ^4.0.0
-  webview_flutter: ^1.0.7
-  google_maps_flutter: ^2.0.3
+
   flutter:
     sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  qr_flutter: ^4.0.0
+  google_maps_flutter: ^2.0.3
   cupertino_icons: ^1.0.2
-  firebase_core: "^0.7.0"
-  firebase_auth: "^0.20.1"
+  firebase_core: ^0.7.0
+  firebase_auth: ^0.20.1
   firebase_database:
   provider: ^4.3.1
   country_code_picker: ^2.0.2
@@ -46,7 +46,7 @@ dependencies:
   country_state_city_picker: ^1.2.8
   flutter_barcode_scanner: ^2.0.0
   location: ^3.0.0
-  flutter_spinkit: "^4.0.0"
+  flutter_spinkit: ^4.0.0
   gradient_bottom_navigation_bar: ^1.0.0+4
   gradient_text: ^1.0.2
   geocoding: ^1.0.5
@@ -54,8 +54,9 @@ dependencies:
   http: ^0.12.0+2
   new_gradient_app_bar: ^0.1.4
   pull_to_refresh: ^2.0.0
-  bubble_tab_indicator: "^0.1.5"
+  bubble_tab_indicator: ^0.1.5
   flutter_svg: ^0.23.0+1
+  csc_picker: ^0.2.6
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

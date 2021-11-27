@@ -84,34 +84,27 @@ class _LoginHomePageState extends State<LoginHomePage>{
                         "Đăng nhập",
                         style: TextStyle(color: Colors.white,fontSize: 16)
                       ),
-                      color: Colors.blue,
-
+                      color: Colors.cyan,
                     ),
                   ),
                 ),
-
-
-
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                //   child: SizedBox(
-                //     width:  double.infinity,
-                //     height: 53,
-                //     child: RaisedButton(
-                //       onPressed: (){
-                //         Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterPage()));
-                //       },
-                //       child: Text(
-                //           "Đăng kí",
-                //           style: TextStyle(color: Colors.black,fontSize: 16)
-                //       ),
-                //       color: Colors.white,
-                //     ),
-                //   ),
-                // ),
-
-
-
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  child: SizedBox(
+                    width:  double.infinity,
+                    height: 53,
+                    child: RaisedButton(
+                      onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>kiemDichPage()));
+                      },
+                      child: Text(
+                          "Chốt kiểm dịch",
+                          style: TextStyle(color: Colors.white,fontSize: 16)
+                      ),
+                      color: Colors.cyan,
+                    ),
+                  ),
+                ),
               ],
             )
         ),
