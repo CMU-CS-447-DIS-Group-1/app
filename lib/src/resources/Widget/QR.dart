@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:app/src/resources/auth_blocs/auth_blocs.dart';
@@ -5,6 +6,7 @@ import 'package:app/src/resources/fire_base/fire_base_auth.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:csc_picker/csc_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -29,8 +31,8 @@ class _QRState extends State<QR> {
   String? countryValue;
   String? stateValue;
   String? cityValue;
-  String _stringQrcode = "";
-  bool _qrcheck=true ;
+  var _stringQrcode;
+  bool _qrcheck=true;
   String barcode = "";
   String qrCodeResult = "Chưa quét";
   FirAuth firAuth = new FirAuth();
@@ -48,7 +50,7 @@ class _QRState extends State<QR> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.blue,
           bottom: TabBar(
             indicator: BubbleTabIndicator(
                 tabBarIndicatorSize: TabBarIndicatorSize.tab,
@@ -430,34 +432,34 @@ class _QRState extends State<QR> {
         if(isEmpty){
           setState(() {
             _qrcheck = false;
-            _stringQrcode = "Họ và tên: " +
-                name.text +
-                "\n" +
-                "Số CMND/CCCD: " +
-                cmnd.text +
-                "\n" +
-                "Số CMND/CCCD: " +
-                phone.text +"\n"
-                "Địa chỉ: " +
-                cityValue.toString() +
-                " " +
-                stateValue.toString() +
-                " " +
-                countryValue.toString() +
-                "\n" +
-                "Những nơi đã đi qua: " +
-                checkin.text;
-            firebase_auth.data(name.text,
-                _selectedGender,
-                cmnd.text,
-                phone.text,
-                cityValue.toString() +
-                    " " +
-                    stateValue.toString() +
-                    " " +
-                    countryValue.toString(),
+            var result={
+              "UID":firebase_auth.currentUser().toString(),
+              "Họ và tên": name.text,
+              "Giới tính": _selectedGender.toString(),
+              "CMND":cmnd.text,
+              "Số điện thoại": phone.text,
+              "Địa chỉ":address.text+", "+cityValue.toString()+", "+stateValue.toString()+", "+countryValue.toString(),
+              "Nơi bắt đầu đi":WhereStart.text,
+              "Nơi đến":WhereEnd.text,
+            };
+            _stringQrcode=jsonEncode(result);
+            // _stringQrcode = "Họ và tên: " + name.text + "\n" +
+            //     "Giới tính: "+_selectedGender.toString()+"\n"+
+            //     "Số CMND/CCCD: " + cmnd.text + "\n" +
+            //     "Số điện thoại: " + phone.text +"\n"
+            //     "Địa chỉ: " +
+            //     cityValue.toString() + " " +
+            //     stateValue.toString() + " " +
+            //     countryValue.toString() + "\n" +
+            //     "Nơi bắt đầu đi: " + WhereStart.text+"\n"+
+            //     "Nơi đến: "+WhereEnd.text;
+            firebase_auth.data(name.text, _selectedGender, cmnd.text, phone.text, address.text+", "+
+                cityValue.toString() + ", " +
+                stateValue.toString() + ", " +
+                countryValue.toString(),
                 WhereStart.text,
-                WhereEnd.text);
+                WhereEnd.text
+            );
           });
         }
       },

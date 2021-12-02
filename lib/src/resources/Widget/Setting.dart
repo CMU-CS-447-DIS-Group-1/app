@@ -25,7 +25,7 @@ class _SettingState extends State<Setting> {
                     "Đăng xuất",
                     style: TextStyle(color: Colors.white,fontSize: 16)
                 ),
-                color: Colors.red,
+                color: Colors.cyan,
               ),
             ),
           );
