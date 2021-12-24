@@ -43,6 +43,7 @@ class _HomeKiemDichState extends State<HomeKiemDich> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          // 
           padding: EdgeInsets.all(20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,7 +59,7 @@ class _HomeKiemDichState extends State<HomeKiemDich> {
               ),
               Container(
                 decoration: BoxDecoration(
-                    color: Colors.cyan.withOpacity(.09),
+                    color: Colors.pinkAccent.withOpacity(.09),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 padding: EdgeInsets.all(20),
                 child: Column(
@@ -124,66 +125,66 @@ class _HomeKiemDichState extends State<HomeKiemDich> {
                         });
                       },
                     ),
-                    SizedBox(height: 15,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                            child: Center(
-                              child: Text(
-                                "Phê duyệt: "+'$_counter_approve',style: TextStyle(fontSize: 16),),
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.green,
-                                borderRadius: BorderRadius.circular(2)),
-                          padding: EdgeInsets.all(5),
-                          height: 30,
-                            width: 150,
-                        ),
-                        Container(
-                            child: Center(
-                              child: Text(
-                                "Từ chối: "+'$_counter_approve',style: TextStyle(fontSize: 16),),
-                            ),
-                            decoration: BoxDecoration(
-                                color: Colors.pink,
-                                borderRadius: BorderRadius.circular(2)),
-                          padding: EdgeInsets.all(5),
-                          height: 30,
-                          width: 150,
-                        ),
-                      ],
-                    ),
+                    // SizedBox(height: 15,),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //   children: [
+                    //     Container(
+                    //         child: Center(
+                    //           child: Text(
+                    //             "Phê duyệt: "+'$_counter_approve',style: TextStyle(fontSize: 16),),
+                    //         ),
+                    //         decoration: BoxDecoration(
+                    //             color: Colors.green,
+                    //             borderRadius: BorderRadius.circular(2)),
+                    //       padding: EdgeInsets.all(5),
+                    //       height: 30,
+                    //         width: 150,
+                    //     ),
+                    //     Container(
+                    //         child: Center(
+                    //           child: Text(
+                    //             "Từ chối: "+'$_counter_approve',style: TextStyle(fontSize: 16),),
+                    //         ),
+                    //         decoration: BoxDecoration(
+                    //             color: Colors.pink,
+                    //             borderRadius: BorderRadius.circular(2)),
+                    //       padding: EdgeInsets.all(5),
+                    //       height: 30,
+                    //       width: 150,
+                    //     ),
+                    //   ],
+                    // ),
 
                   ],
                 ),
               ),
-
-              // FlatButton(
-              //   padding: EdgeInsets.all(10.0),
-              //   onPressed: () async {
-              //     String barcode = await FlutterBarcodeScanner.scanBarcode(
-              //         '#ff6666', 'Cancel', true, ScanMode.QR); //barcode scnner
-              //     setState(() {
-              //       this.barcode = barcode;
-              //       qrCodeResult = jsonDecode(barcode);
-              //       if (barcode.length>=0) {
-              //         check = true;
-              //         print(barcode.length);
-              //       }
-              //     });
-              //   },
-              //   child: Text(
-              //     "Quét mã QR",
-              //     style:
-              //         TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
-              //   ),
-              //   shape: RoundedRectangleBorder(
-              //       side: BorderSide(color: Colors.blue, width: 2.0),
-              //       borderRadius: BorderRadius.circular(20.0)),
-              // ),
+              cityValue!=null?
+              FlatButton(
+                padding: EdgeInsets.all(20.0),
+                onPressed: () async {
+                  String barcode = await FlutterBarcodeScanner.scanBarcode(
+                      '#ff6666', 'Cancel', true, ScanMode.QR); //barcode scnner
+                  setState(() {
+                    this.barcode = barcode;
+                    qrCodeResult = jsonDecode(barcode);
+                    if (barcode.length>=0) {
+                      check = true;
+                      print(barcode.length);
+                    }
+                  });
+                },
+                child: Text(
+                  "Quét mã QR",
+                  style:
+                      TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+                ),
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.blue, width: 2.0),
+                    borderRadius: BorderRadius.circular(20.0)),
+              ):Center(child: Text("Nhập chốt để quét",style: TextStyle(color: Colors.red),)),
               SizedBox(
-                height: 5,
+                height: 10,
               ),
               Text(
                 "Thông tin người đi đường",
@@ -223,7 +224,14 @@ class _HomeKiemDichState extends State<HomeKiemDich> {
                               "Địa chỉ: " + qrCodeResult['Địa chỉ'].toString()),
                           Text("Nơi bắt đầu đi: " +
                               qrCodeResult['Nơi bắt đầu đi'].toString()),
-
+                          Text("Nơi đến: " +
+                              qrCodeResult['Nơi đến'].toString()),
+                          Text("Ở trong vùng dịch: " +
+                              qrCodeResult['Vùng dịch'].toString()),
+                          Text("Tiếp xúc với người nhiễm trong 7 ngày qua: " +
+                              qrCodeResult['Tiếp xúc'].toString()),
+                          Text("Số mũi: " +
+                              qrCodeResult['Số mũi'].toString()),
                         ],
                       ),
                     ),
@@ -250,6 +258,7 @@ class _HomeKiemDichState extends State<HomeKiemDich> {
                                     cityValue.toString() +
                                         ", " +
                                         stateValue.toString());
+                                check=false;
                               },
                             child: Text("Chấp thuận"),
                           ),
@@ -277,21 +286,22 @@ class _HomeKiemDichState extends State<HomeKiemDich> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.qr_code_scanner),
-        onPressed: () async {
-          String barcode = await FlutterBarcodeScanner.scanBarcode(
-              '#ff6666', 'Cancel', true, ScanMode.QR); //barcode scnner
-          setState(() {
-            this.barcode = barcode;
-            qrCodeResult = jsonDecode(barcode);
-            if (barcode.length > 10) {
-              check = true;
-            }
-          });
-        },
-        backgroundColor: Colors.teal,
-      ),
+
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(Icons.qr_code_scanner),
+      //   onPressed: () async {
+      //     String barcode = await FlutterBarcodeScanner.scanBarcode(
+      //         '#ff6666', 'Cancel', true, ScanMode.QR); //barcode scnner
+      //     setState(() {
+      //       this.barcode = barcode;
+      //       qrCodeResult = jsonDecode(barcode);
+      //       if (barcode.length > 10) {
+      //         check = true;
+      //       }
+      //     });
+      //   },
+      //   backgroundColor: Colors.teal,
+      // ),
     );
   }
 

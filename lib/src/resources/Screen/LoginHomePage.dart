@@ -25,8 +25,8 @@ class _LoginHomePageState extends State<LoginHomePage>{
       body: Container(
         decoration:  BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/background2.jpg"),
-              fit: BoxFit.cover,
+              image: AssetImage("assets/background.jpg"),
+              fit: BoxFit.none,
               colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.1), BlendMode.dstATop),
             )
         ),

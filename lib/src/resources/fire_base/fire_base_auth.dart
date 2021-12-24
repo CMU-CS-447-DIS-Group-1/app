@@ -12,7 +12,7 @@ class FirAuth{
   }
 
 
-  void data(String name, String gender,String cmnd,String phone,String address,String WhereStart,String WhereEnd){
+  void data(String name, String gender,String cmnd,String phone,String address,String WhereStart,String WhereEnd,String vungdich,String tiepxuc,String somui){
     final User user = _firebaseAuth.currentUser;
     final uid = user.uid;
     var users={
@@ -23,6 +23,9 @@ class FirAuth{
       "Address": address,
       "WhereStart":WhereStart,
       "WhereEnd": WhereEnd,
+      "Contact":tiepxuc,
+      "Region":vungdich,
+      "NumberVC":somui,
     };
     var ref= FirebaseDatabase.instance.reference().child("RoadsterList");
     ref.child(uid).set(users).then((user){

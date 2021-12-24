@@ -37,7 +37,13 @@ class _QRState extends State<QR> {
   String qrCodeResult = "Chưa quét";
   FirAuth firAuth = new FirAuth();
   List gender = ["Male", "Female"];
-  String _selectedGender = 'male';
+  String _selectedGender = 'Male';
+  List vungdich = ["Có", "Không"];
+  String _selectedVungDich = 'Không';
+  List tiepxuc = ["Có", "Không"];
+  String _selectedTiepXuc = 'Không';
+  List somui = [0,1,2];
+  String _selectedSoMui = 'Không';
   FirAuth firebase_auth = new FirAuth();
   @override
   void dispose(){
@@ -46,39 +52,43 @@ class _QRState extends State<QR> {
   }
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          bottom: TabBar(
-            indicator: BubbleTabIndicator(
-                tabBarIndicatorSize: TabBarIndicatorSize.tab,
-                indicatorHeight: 40.0,
-                indicatorColor: Colors.white),
-            labelColor: Colors.black,
-            labelStyle: TextStyle(fontSize: 16),
-            tabs: [
-              Tab(text: "Cá nhân"),
-              Tab(
-                text: "Chốt kiểm dịch",
-              ),
-            ],
-            unselectedLabelColor: Colors.black,
-          ),
-          titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          centerTitle: true,
-          title: const Text("Mã QR"),
-        ),
-        body: TabBarView(
-          children: [
-            _buildQRPersonal(),
-            chotKiemDich(),
-          ],
-        ),
-      ),
+    // return DefaultTabController(
+    //   length: 2,
+    //   child: Scaffold(
+    //     appBar: AppBar(
+    //       backgroundColor: Colors.blue,
+    //       bottom: TabBar(
+    //         indicator: BubbleTabIndicator(
+    //             tabBarIndicatorSize: TabBarIndicatorSize.tab,
+    //             indicatorHeight: 40.0,
+    //             indicatorColor: Colors.white),
+    //         labelColor: Colors.black,
+    //         labelStyle: TextStyle(fontSize: 16),
+    //         tabs: [
+    //           Tab(text: "Cá nhân"),
+    //           Tab(
+    //             text: "Chốt kiểm dịch",
+    //           ),
+    //         ],
+    //         unselectedLabelColor: Colors.black,
+    //       ),
+    //       titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    //       centerTitle: true,
+    //       title: const Text("Mã QR"),
+    //     ),
+    //     body: TabBarView(
+    //       children: [
+    //         _buildQRPersonal(),
+    //         chotKiemDich(),
+    //       ],
+    //     ),
+    //   ),
+    // );
+    // ;
+    return Scaffold(
+      appBar: AppBar(title: Text("Nhập thông tin")),
+      body: _buildQRPersonal(),
     );
-    ;
   }
 
   Widget _buildQRPersonal() {
@@ -372,6 +382,135 @@ class _QRState extends State<QR> {
                     );
                   }
                 )),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Trong vùng dịch",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        leading: Radio(
+                          value: 'Không',
+                          groupValue: _selectedVungDich,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedVungDich = value as String;
+                            });
+                          },
+                        ),
+                        title: Text('Không'),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        leading: Radio(
+                          value: 'Có',
+                          groupValue: _selectedVungDich,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedVungDich = value as String;
+                            });
+                          },
+                        ),
+                        title: Text('Có'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Đã tiếp xúc với người nhiễm 7 ngày qua",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        leading: Radio(
+                          value: 'Không',
+                          groupValue: _selectedTiepXuc,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedTiepXuc = value as String;
+                            });
+                          },
+                        ),
+                        title: Text('Không'),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        leading: Radio(
+                          value: 'Có',
+                          groupValue: _selectedTiepXuc,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedTiepXuc = value as String;
+                            });
+                          },
+                        ),
+                        title: Text('Có'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text("Số mũi",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        leading: Radio(
+                          value: "0",
+                          groupValue: _selectedSoMui,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedSoMui = value as String;
+                            });
+                          },
+                        ),
+                        title: Text('0'),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        leading: Radio(
+                          value: "1",
+                          groupValue: _selectedSoMui,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedSoMui = value as String;
+                            });
+                          },
+                        ),
+                        title: Text('1'),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        leading: Radio(
+                          value: "2",
+                          groupValue: _selectedSoMui,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedSoMui = value as String;
+                            });
+                          },
+                        ),
+                        title: Text('2'),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
             genarateButton("Điền thông tin"),
           ],
         ),
@@ -441,6 +580,9 @@ class _QRState extends State<QR> {
               "Địa chỉ":address.text+", "+cityValue.toString()+", "+stateValue.toString()+", "+countryValue.toString(),
               "Nơi bắt đầu đi":WhereStart.text,
               "Nơi đến":WhereEnd.text,
+              "Vùng dịch":_selectedVungDich.toString(),
+              "Tiếp xúc":_selectedTiepXuc.toString(),
+              "Số mũi":_selectedSoMui.toString(),
             };
             _stringQrcode=jsonEncode(result);
             // _stringQrcode = "Họ và tên: " + name.text + "\n" +
@@ -458,7 +600,10 @@ class _QRState extends State<QR> {
                 stateValue.toString() + ", " +
                 countryValue.toString(),
                 WhereStart.text,
-                WhereEnd.text
+                WhereEnd.text,
+              _selectedVungDich,
+              _selectedTiepXuc,
+              _selectedSoMui,
             );
           });
         }
