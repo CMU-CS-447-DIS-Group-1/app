@@ -40,7 +40,7 @@ class _SettingState extends State<Setting> {
                     Center(
                       child:
                       Text("Thông tin về Blue Station",
-                          style: TextStyle(color: Colors.white, fontSize: 16)),
+                          style: TextStyle(color: Colors.white, fontSize: 11)),
                     ),
                   ],
                 ),
@@ -66,7 +66,7 @@ class _SettingState extends State<Setting> {
                     Center(
                       child:
                       Text("Phản hồi",
-                          style: TextStyle(color: Colors.white, fontSize: 16)),
+                          style: TextStyle(color: Colors.white, fontSize: 11)),
                     ),
 
                   ],
@@ -94,7 +94,7 @@ class _SettingState extends State<Setting> {
                     Center(
                       child:
                       Text("Đăng xuất",
-                          style: TextStyle(color: Colors.white, fontSize: 16)),
+                          style: TextStyle(color: Colors.white, fontSize: 11)),
                     ),
                   ],
                 ),

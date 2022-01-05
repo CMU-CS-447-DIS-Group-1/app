@@ -53,7 +53,7 @@ class _LoginHomePageState extends State<LoginHomePage>{
                               child: Text(
                                 dialCodeDigits,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(fontSize: 10),
                               ),
                             ),
                             border: OutlineInputBorder(

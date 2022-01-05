@@ -157,7 +157,7 @@ class _TrangChuState extends State<TrangChu> {
                                 )
                               ),
                             ),
-                            Text("Khẩu trang")
+                            Text("Khẩu trang",style: TextStyle(fontSize: 8))
                           ],
                         ),
                       ],
@@ -174,7 +174,7 @@ class _TrangChuState extends State<TrangChu> {
                               )
                           ),
                         ),
-                        Text("Khai báo y tế")
+                        Text("Khai báo y tế",style: TextStyle(fontSize: 8))
                       ],
                     ),
                     Column(
@@ -189,7 +189,7 @@ class _TrangChuState extends State<TrangChu> {
                               )
                           ),
                         ),
-                        Text("Khoảng cách")
+                        Text("Khoảng cách",style: TextStyle(fontSize: 8))
                       ],
                     )
                   ],
@@ -212,7 +212,7 @@ class _TrangChuState extends State<TrangChu> {
                                   )
                               ),
                             ),
-                            Text("Không tụ tập")
+                            Text("Không tụ tập",style: TextStyle(fontSize: 8))
                           ],
                         ),
                       ],
@@ -229,7 +229,7 @@ class _TrangChuState extends State<TrangChu> {
                               )
                           ),
                         ),
-                        Text("Khử khuẩn")
+                        Text("Khử khuẩn",style: TextStyle(fontSize: 8))
                       ],
                     ),
                   ],
@@ -304,7 +304,7 @@ class _TrangChuState extends State<TrangChu> {
                                   )
                               ),
                             ),
-                            Text("Khẩu trang")
+                            Text("Khẩu trang",style: TextStyle(fontSize: 8),)
                           ],
                         ),
                       ],
@@ -321,7 +321,7 @@ class _TrangChuState extends State<TrangChu> {
                               )
                           ),
                         ),
-                        Text("Khai báo y tế")
+                        Text("Khai báo y tế",style: TextStyle(fontSize: 8),)
                       ],
                     ),
                     Column(
@@ -336,7 +336,7 @@ class _TrangChuState extends State<TrangChu> {
                               )
                           ),
                         ),
-                        Text("Khoảng cách")
+                        Text("Khoảng cách",style: TextStyle(fontSize: 8),)
                       ],
                     )
                   ],
@@ -359,7 +359,7 @@ class _TrangChuState extends State<TrangChu> {
                                   )
                               ),
                             ),
-                            Text("Không tụ tập")
+                            Text("Không tụ tập",style: TextStyle(fontSize: 8),)
                           ],
                         ),
                       ],
@@ -376,7 +376,7 @@ class _TrangChuState extends State<TrangChu> {
                               )
                           ),
                         ),
-                        Text("Khử khuẩn")
+                        Text("Khử khuẩn",style: TextStyle(fontSize: 8),)
                       ],
                     ),
                   ],
@@ -417,7 +417,7 @@ class infoCard extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 14, color: color),
+                    style: TextStyle(fontSize: 8, color: color),
                   )
                 ],
               ),

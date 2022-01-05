@@ -36,7 +36,7 @@ class _QRState extends State<QR> {
   String barcode = "";
   String qrCodeResult = "Chưa quét";
   FirAuth firAuth = new FirAuth();
-  List gender = ["Male", "Female"];
+  List gender = ["Nam", "Nữ"];
   String _selectedGender = 'Male';
   List vungdich = ["Có", "Không"];
   String _selectedVungDich = 'Không';
@@ -144,7 +144,7 @@ class _QRState extends State<QR> {
                 Expanded(
                   child: ListTile(
                     leading: Radio(
-                      value: 'male',
+                      value: 'Nam',
                       groupValue: _selectedGender,
                       onChanged: (value) {
                         setState(() {
@@ -152,13 +152,13 @@ class _QRState extends State<QR> {
                         });
                       },
                     ),
-                    title: Text('Nam'),
+                    title: Text('Nam',style: TextStyle(fontSize: 11)),
                   ),
                 ),
                 Expanded(
                   child: ListTile(
                     leading: Radio(
-                      value: 'female',
+                      value: 'Nữ',
                       groupValue: _selectedGender,
                       onChanged: (value) {
                         setState(() {
@@ -166,7 +166,7 @@ class _QRState extends State<QR> {
                         });
                       },
                     ),
-                    title: Text('Nữ'),
+                    title: Text('Nữ',style: TextStyle(fontSize: 11)),
                   ),
                 ),
               ],
@@ -399,7 +399,7 @@ class _QRState extends State<QR> {
                             });
                           },
                         ),
-                        title: Text('Không'),
+                        title: Text('Không',style: TextStyle(fontSize: 11)),
                       ),
                     ),
                     Expanded(
@@ -413,7 +413,7 @@ class _QRState extends State<QR> {
                             });
                           },
                         ),
-                        title: Text('Có'),
+                        title: Text('Có',style: TextStyle(fontSize: 11)),
                       ),
                     ),
                   ],
@@ -423,7 +423,7 @@ class _QRState extends State<QR> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Đã tiếp xúc với người nhiễm 7 ngày qua",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                Text("Đã tiếp xúc với người nhiễm 14 ngày qua",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                 Row(
                   children: [
                     Expanded(
@@ -437,7 +437,7 @@ class _QRState extends State<QR> {
                             });
                           },
                         ),
-                        title: Text('Không'),
+                        title: Text('Không',style: TextStyle(fontSize: 11)),
                       ),
                     ),
                     Expanded(
@@ -451,7 +451,7 @@ class _QRState extends State<QR> {
                             });
                           },
                         ),
-                        title: Text('Có'),
+                        title: Text('Có',style: TextStyle(fontSize: 11)),
                       ),
                     ),
                   ],
